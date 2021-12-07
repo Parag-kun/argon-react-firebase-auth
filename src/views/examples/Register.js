@@ -17,7 +17,6 @@
 */
 import { useState } from "react"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import axios from 'axios'
 
 // reactstrap components
 import {
@@ -36,7 +35,6 @@ import {
 } from "reactstrap";
 
 import { auth } from '../../firebase-config'
-import { Redirect } from "react-router-dom";
 import Success from "./Success";
 
 const Register = (props) => {
