@@ -40,14 +40,14 @@ import { Redirect } from "react-router-dom";
 import Success from "./Success";
 
 const Register = (props) => {
-  const [name, setName] = useState('')
+  const [, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState(0)
 
   const register = async () => {
     try {
-      const { user: { uid, email: registeredEmail } } = await createUserWithEmailAndPassword(auth, email, password)
+      await createUserWithEmailAndPassword(auth, email, password)
       // const { status  } = await axios.post('https://registertest.free.beeceptor.com/init', { uid, email: registeredEmail })
       setStatus(1)
     } catch(err) {

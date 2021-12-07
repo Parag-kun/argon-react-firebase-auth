@@ -44,7 +44,7 @@ const Login = () => {
 
   const login = async () => {
     try {
-      const { user: { uid, email: loggedInEmail } } = await signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
       // const { status  } = await axios.post('https://registertest.free.beeceptor.com/init', { uid, email: loggedInEmail })
       setStatus(1)
     } catch(err) {
