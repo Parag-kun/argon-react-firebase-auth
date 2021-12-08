@@ -38,16 +38,17 @@ import {
 import { auth } from '../../firebase-config'
 import Success from './Success';
 import { useHistory } from 'react-router-dom';
-import { User } from 'index';
+import { User } from '../../index';
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState(0)
+  const [error, setError] = useState('')
 
   const { login: loginUser } = useContext(User)
 
-  onAuthStateChanged(auth, currentUser => loginUser(currentUser.email))
+  onAuthStateChanged(auth, currentUser => loginUser(currentUser?.email))
 
   const history = useHistory()
 
@@ -57,7 +58,7 @@ const Login = () => {
       // const { status  } = await axios.post('https://registertest.free.beeceptor.com/init', { uid, email: loggedInEmail })
       setStatus(1)
     } catch(err) {
-      console.log(err)
+      setError(err.message)
     }
   }
 
@@ -163,6 +164,9 @@ const Login = () => {
               </div>
             </Form>
           </CardBody>
+          <div style={{ color: 'red', paddingBottom: 10, textAlign: 'center' }}>
+          {error}
+          </div>
         </Card>
         <Row className="mt-3">
           <Col xs="6">

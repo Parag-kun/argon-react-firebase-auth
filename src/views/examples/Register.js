@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useState } from "react"
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { useContext, useState } from "react"
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 
 // reactstrap components
 import {
@@ -37,19 +37,26 @@ import {
 import { auth } from '../../firebase-config'
 import Success from "./Success";
 
+import { User } from '../../index'
+
 const Register = (props) => {
   const [, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState(0)
+  const [error, setError] = useState('')
+
+  const { login } = useContext(User)
+
+  onAuthStateChanged(auth, currentUser => login(currentUser?.email))
 
   const register = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       // const { status  } = await axios.post('https://registertest.free.beeceptor.com/init', { uid, email: registeredEmail })
       setStatus(1)
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      setError(err.message)
     }
   }
 
@@ -179,6 +186,9 @@ const Register = (props) => {
                 </Button>
               </div>
             </Form>
+            <div style={{ color: 'red', paddingTop: 10, textAlign: 'center' }}>
+              {error}
+            </div>
           </CardBody>
         </Card>
       </Col>

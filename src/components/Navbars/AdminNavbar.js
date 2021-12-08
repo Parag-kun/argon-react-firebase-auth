@@ -17,6 +17,7 @@
 */
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
 // reactstrap components
 import {
   DropdownMenu,
@@ -36,9 +37,15 @@ import {
 } from "reactstrap";
 
 import { User } from '../../index'
+import { auth } from '../../firebase-config'
 
 const AdminNavbar = (props) => {
-  const { logout } = useContext(User)
+  const { logout: logoutUser } = useContext(User)
+
+  const logout = async () => {
+    logoutUser()
+    await signOut(auth)
+  }
 
   return (
     <>
