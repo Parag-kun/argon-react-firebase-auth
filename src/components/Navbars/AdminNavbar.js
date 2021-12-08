@@ -15,6 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -34,7 +35,11 @@ import {
   Media,
 } from "reactstrap";
 
+import { User } from '../../index'
+
 const AdminNavbar = (props) => {
+  const { logout } = useContext(User)
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -72,7 +77,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {localStorage.getItem('token')}
                     </span>
                   </Media>
                 </Media>
@@ -98,7 +103,7 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={logout}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>

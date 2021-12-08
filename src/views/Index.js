@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useState } from "react";
+import { useContext, useState } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -47,8 +47,12 @@ import {
 } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
+import { useHistory } from "react-router-dom";
 
 const Index = (props) => {
+  const history = useHistory()
+  if (!localStorage.getItem('token')) history.push('/auth/login')
+
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
 

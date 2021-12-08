@@ -15,8 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useContext, useState } from 'react'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+// import axios from 'axios';
 
 // reactstrap components
 import {
@@ -36,11 +37,19 @@ import {
 
 import { auth } from '../../firebase-config'
 import Success from './Success';
+import { useHistory } from 'react-router-dom';
+import { User } from 'index';
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState(0)
+
+  const { login: loginUser } = useContext(User)
+
+  onAuthStateChanged(auth, currentUser => loginUser(currentUser.email))
+
+  const history = useHistory()
 
   const login = async () => {
     try {
@@ -169,7 +178,7 @@ const Login = () => {
             <a
               className="text-light"
               href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              onClick={() => history.push('/auth/register')}
             >
               <small>Create new account</small>
             </a>

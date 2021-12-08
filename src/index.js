@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { createContext, useState } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -27,14 +27,25 @@ import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
 import Success from "views/examples/Success";
 
+export const User = createContext({ user: null, setUser: () => {}})
+
+function UserContext(props) {
+  const login = data => localStorage.setItem('token', data)
+  const logout = () => localStorage.removeItem('token')
+
+  return <User.Provider value={{ login, logout}} {...props}/>
+}
+
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/success" component={Success} />
-      <Redirect from="/" to="/admin/index" />
-    </Switch>
-  </BrowserRouter>,
+  <UserContext >
+    <BrowserRouter>
+      <Switch>
+        <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+        <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+        <Route path="/success" component={Success} />
+        <Redirect from="/" to="/admin/index" />
+      </Switch>
+    </BrowserRouter>
+  </UserContext>,
   document.getElementById("root")
 );
